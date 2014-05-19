@@ -52,6 +52,11 @@ class Bag:
         else:
             for item in inventory.values():
                 print("You have a {}".format(item.name))
+                touchreq = input("Do you want to touch the {} (Y/N)".format(item.name))
+                if touchreq.upper == "Y":
+                    print (item.name(touch))
+                else:
+                    print("I'll take that as a no then....")
         
         return False
 
@@ -163,14 +168,19 @@ class follow:
         
         return True
 
-class RubberChicken(Item):
+class RubberChicken(Item, Touch):
     def __init__(self):
-        super().__init__("Rubber Chicken")
+        super().__init__("Rubber Chicken", "Hehehe its squeaky")
 
 class MrCat(follow):
     def __init__(self):
         super().__init__("Mr.Cat", "2", "2")
 
+class Detonator(Item, Touch):
+    def __init__(self):
+        super().__init__("Nuclear Detonator", "Dude what the hell you just blew this whole place, nice job, ass, you're lucky i have a low level of programming and can't figure out how to kill you right now you lucky thing.")
+ 
+ 
 start = Place("Outside", """
 You are standing in an open field west of a white house, with a boarded front door.
 """)
@@ -194,5 +204,9 @@ hallway.connect("left", "back", kitchen)
 
 pool = Place("In-door Swimming Pool")
 pool.actions["inspect"] = RubberChicken()
+pool.connect("dive deeper", bottompool)
+
+bottompool = Place("Bottom of the Swimming Pool")
+bottompool.actions["inspect"] = Detonator()
 
 hallway.connect("right", "back", pool)
